@@ -23,6 +23,6 @@ It will build 2 images (frontend, backend), pull 2 images (mongo, mongo-express)
 - `mongo express ui`: [https://localhost:8081](https://localhost:8081)
 
 ## WebUI
-<img src="./homepage.png" width="80%">
-<img src="./api-response.png" width="80%">
-<img src="./mongo-express.png" width="80%">
+<img src="./figures/homepage.png" width="80%">
+<img src="./figures/api-response.png" width="80%">
+<img src="./figures/mongo-express.png" width="80%">
