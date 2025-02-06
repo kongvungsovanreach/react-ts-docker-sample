@@ -24,3 +24,5 @@ It will build 2 images (frontend, backend), pull 2 images (mongo, mongo-express)
 
 ## WebUI
 <img src="./homepage.png" width="80%">
+<img src="./api-response.png" width="80%">
+<img src="./mongo-express.png" width="80%">
