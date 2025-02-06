@@ -19,8 +19,8 @@ It will build 2 images (frontend, backend), pull 2 images (mongo, mongo-express)
 - `backend`: container for hosting backend
 
 ## Access
-- `frontend web ui`: [https://localhost:3000](https://localhost:3000) 
-- `mongo express ui`: [https://localhost:8081](https://localhost:8081)
+- `frontend web ui`: [http://localhost:3000](http://localhost:3000) 
+- `mongo express ui`: [http://localhost:8081](http://localhost:8081)
 
 ## WebUI
 <img src="./figures/homepage.png" width="80%">
