@@ -1,0 +1,75 @@
+version: '3.1'
+
+services:
+
+  # MongoDB service
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mongo_network
+
+  # Mongo Express service
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    networks:
+      - mongo_network
+
+  # Backend service (NodeJS)
+  backend:
+    build:
+      context: ./backend  # Path to your NodeJS backend folder
+      dockerfile: DockerfileMS  # Points to the Dockerfile in the backend directory
+    environment:
+      - MONGO_URI=mongodb://root:example@mongo:27017/todolist?authSource=admin # MongoDB connection URI
+    ports:
+      - 5000:5000 # Change to the port your backend uses
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app # To make code changes instantly available
+    command: npm run dev # Runs the backend with `npm run dev`
+    networks:
+      - backend_network
+      - mongo_network
+
+  # Frontend service (ReactJS)
+  frontend:
+    build:
+      context: ./frontend # Path to your ReactJS frontend folder
+      dockerfile: DockerfileMS  # Points to the Dockerfile in the frontend directory
+    ports:
+      - 3000:80 # Change to the port your frontend uses
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app # To make code changes instantly available
+    environment:
+      - REACT_APP_API_URL=http://backend:5000 # URL of your backend
+    command: ["nginx", "-g", "daemon off;"]
+    networks:
+      - backend_network
+
+volumes:
+  mongo-data:
+
+networks:
+  backend_network: # Custom network for frontend and backend
+    driver: bridge
+  mongo_network: # Isolated network for MongoDB
+    driver: bridge
